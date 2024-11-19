@@ -13,30 +13,30 @@ Data Collection
 
 Data Processing
 
-    Species Filtering: Only six target zooplankton species were included in this dataset.
-    Abundance Calculation: Zooplankton abundance was calculated based on the volume of water filtered during sampling.
-    Station Metadata: Station information (latitude, longitude, and max. depth) was merged with the zooplankton abundance data for added context.
+* Species Filtering: Only six target zooplankton species were included in this dataset.
+* Abundance Calculation: Zooplankton abundance was calculated based on the volume of water filtered during sampling.
+* Station Metadata: Station information (latitude, longitude, and max. depth) was merged with the zooplankton abundance data for added context.
 
 Code Workflow
 
-    Data Filtering: The raw zooplankton dataset was filtered to include only the target species.
-    Merging Station Information: Station metadata was joined with the filtered dataset to provide spatial context.
-    Ordering Data: Stations were ordered in a predefined sequence (MVCO, L1–L11) to reflect their geographic arrangement.
-    Final Output: A clean, formatted dataset was created, ready for analysis and visualization.
+* Data Filtering: The raw zooplankton dataset was filtered to include only the target species.
+* Merging Station Information: Station metadata was joined with the filtered dataset to provide spatial context.
+* Ordering Data: Stations were ordered in a predefined sequence (MVCO, L1–L11) to reflect their geographic arrangement.
+* Final Output: A clean, formatted dataset was created, ready for analysis and visualization.
 
 Requirements
 
-    R Packages:
-        dplyr (data manipulation)
-        tidyr (data organization)
-        ggplot2 (visualization, optional)
+* R Packages:
+    ** dplyr (data manipulation)
+    ** tidyr (data organization)
+    ** ggplot2 (visualization, optional)
 
 How to Use
 
-    Clone or download this repository.
-    Open the R script file (datajamNESzoop.R).
-    Run the script to reproduce the filtered and ordered zooplankton dataset.
-    Modify or extend the script to customize for your research needs.
+* Clone or download this repository.
+* Open the R script file (datajamNESzoop.R).
+* Run the script to reproduce the filtered and ordered zooplankton dataset.
+* Modify or extend the script to customize for your research needs.
 
 Acknowledgments
 
