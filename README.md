@@ -6,10 +6,10 @@ You can read more about this project: https://sites.google.com/view/nes-lter-sch
 
 Data Collection
 
-*Research Cruises: Data were collected during research cruises using a Bongo net system.
-*Bongo Nets: Two nets with different mesh sizes (150 µm and 335 µm) were used to capture zooplankton of various sizes.
-*Samples: This dataset focuses on samples from the 335 µm net.
-*Stations: Sampling occurred at 12 stations, including MVCO and L1–L11, arranged from inshore to offshore along the continental shelf.
+* Research Cruises: Data were collected during research cruises using a Bongo net system.
+* Bongo Nets: Two nets with different mesh sizes (150 µm and 335 µm) were used to capture zooplankton of various sizes.
+* Samples: This dataset focuses on samples from the 335 µm net.
+* Stations: Sampling occurred at 12 stations, including MVCO and L1–L11, arranged from inshore to offshore along the continental shelf.
 
 Data Processing
 
