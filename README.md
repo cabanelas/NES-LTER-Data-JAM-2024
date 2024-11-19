@@ -27,9 +27,9 @@ Code Workflow
 Requirements
 
 * R Packages:
-    ** dplyr (data manipulation)
-    ** tidyr (data organization)
-    ** ggplot2 (visualization, optional)
+    * dplyr (data manipulation)
+    * tidyr (data organization)
+    * ggplot2 (visualization, optional)
 
 How to Use
 
