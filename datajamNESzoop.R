@@ -17,7 +17,7 @@ library(tidyverse)
 ## ------------------------------------------ ##
 
 zp <- read.csv(file.path("raw",
-                         "nes-lter-zp-abundance-335um-unstaged10m2.csv"), 
+                         "nes-lter-zp-abundance-335um-unstaged100m3.csv"), 
                header = T) #created in \NES-LTER\Cruise Data\EDI zooplankton abundance update v2\zoop_abundance_update_EDI_v2
 
 station_info <- read.csv(file.path("raw",
@@ -65,8 +65,8 @@ zp <- zp %>%
 # top 6 taxa overall 
 top_taxa <- zp %>%
   group_by(taxa_name) %>%
-  summarise(total_conc_10m2 = sum(conc_10m2, na.rm = TRUE)) %>%
-  arrange(desc(total_conc_10m2)) %>%
+  summarise(total_conc_100m3 = sum(conc_100m3, na.rm = TRUE)) %>%
+  arrange(desc(total_conc_100m3)) %>%
   slice_head(n = 6) # Select top 6 taxa
 
 zp_top_taxa <- zp %>%
@@ -75,18 +75,19 @@ zp_top_taxa <- zp %>%
 # group taxa by station
 zp1_top_taxa <- zp_top_taxa %>%
   group_by(station, taxa_name) %>%
-  summarise(mean_conc_10m2 = mean(conc_10m2, na.rm = TRUE)) %>%
+  summarise(mean_conc_100m3 = mean(conc_100m3, na.rm = TRUE)) %>%
   ungroup()
 
 
 #top taxa by station
 aggregated_data <- zp %>%
   group_by(station, taxa_name) %>%
-  summarise(total_conc_10m2 = sum(conc_10m2, na.rm = TRUE), .groups = "drop") # Sum across years
+  summarise(total_conc_100m3 = sum(conc_100m3, na.rm = TRUE), 
+            .groups = "drop") # Sum across years
 
 top_taxa_per_station <- aggregated_data %>%
   group_by(station) %>%
-  arrange(desc(total_conc_10m2), .by_group = TRUE) %>% 
+  arrange(desc(total_conc_100m3), .by_group = TRUE) %>% 
   slice_head(n = 3) %>% # Select top 3 taxa per station
   ungroup()
 
@@ -106,11 +107,11 @@ tableau_colors <- c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
                     "#c9c9c9", "#c2b9f7", "#f8c2c1", "#ffda77", "#fd8752")
 
 # total abundance 
-ggplot(zp1_top_taxa, aes(station, mean_conc_10m2, 
+ggplot(zp1_top_taxa, aes(station, mean_conc_100m3, 
                          group = taxa_name, fill = taxa_name)) +
   geom_bar(stat = "identity") +
   labs(x="Station") +
-  ylab(expression("Density (Ind \u00D7 10" ~ m^{2} ~ ")")) +
+  ylab(expression("Density (Ind \u00D7 100" ~ m^{3} ~ ")")) +
   theme_bw() +
   scale_fill_manual(values = tableau_colors) +
   theme(legend.position = "right",
@@ -134,11 +135,11 @@ ggplot(zp1_top_taxa, aes(station, mean_conc_10m2,
   scale_y_continuous(expand = expansion(mult = c(0,0.1)))
 
 # relative abundance
-ggplot(zp1_top_taxa, aes(station, mean_conc_10m2, 
+ggplot(zp1_top_taxa, aes(station, mean_conc_100m3, 
                          group = taxa_name, fill = taxa_name)) +
   geom_col(position = "fill") +
   labs(x="Station") +
-  ylab(expression("Density (Ind \u00D7 10" ~ m^{2} ~ ")")) +
+  ylab(expression("Density (Ind \u00D7 100" ~ m^{3} ~ ")")) +
   theme_bw() +
   scale_fill_manual(values = tableau_colors) +
   theme(legend.position = "right",
@@ -173,7 +174,7 @@ total_samples <- zp %>%
 
 # Step 2: Count how many times each species appears in unique sampling events
 species_occurrences <- zp %>%
-  filter(conc_10m2 > 0) %>%  # Filter only records where concentration is greater than zero
+  filter(conc_100m3 > 0) %>%  # Filter only records where concentration is greater than zero
   distinct(cruise, station, cast, taxa_name) %>% # Unique combination of species in a sample
   count(taxa_name)
 
@@ -203,15 +204,15 @@ filtered_zp <- zp %>%
 
 filtered_zp1 <- filtered_zp %>%
   group_by(station, taxa_name) %>%
-  summarise(mean_conc_10m2 = mean(conc_10m2, na.rm = TRUE)) %>%
+  summarise(mean_conc_100m3 = mean(conc_100m3, na.rm = TRUE)) %>%
   ungroup()
 
-ggplot(filtered_zp1, aes(station, mean_conc_10m2, 
+ggplot(filtered_zp1, aes(station, mean_conc_100m3, 
                          group = taxa_name, fill = taxa_name)) +
   geom_bar(stat = "identity") +
   labs(x="Station") +
   #facet_wrap(~season) +
-  ylab(expression("Density (Ind \u00D7 10" ~ m^{2} ~ ")")) +
+  ylab(expression("Density (Ind \u00D7 100" ~ m^{3} ~ ")")) +
   theme_bw() +
   scale_fill_manual(values = tableau_colors) +
   theme(legend.position = "right",
@@ -236,12 +237,12 @@ ggplot(filtered_zp1, aes(station, mean_conc_10m2,
 
 
 
-ggplot(filtered_zp1, aes(station, mean_conc_10m2, 
+ggplot(filtered_zp1, aes(station, mean_conc_100m3, 
                          group = taxa_name, fill = taxa_name)) +
   geom_col(position = "fill") +
   labs(x="Station") +
   #facet_wrap(~season) +
-  ylab(expression("Density (Ind \u00D7 10" ~ m^{2} ~ ")")) +
+  ylab(expression("Density (Ind \u00D7 100" ~ m^{3} ~ ")")) +
   theme_bw() +
   scale_fill_manual(values = tableau_colors) +
   theme(legend.position = "right",
@@ -269,21 +270,40 @@ filtered_zp1 <- merge(filtered_zp1, station_info,
                       by = "station", 
                       all.x = TRUE)
 
+filtered_zp1 <- filtered_zp1 %>%
+  mutate(mean_conc_m3 = mean_conc_100m3/100) %>%
+  select(-mean_conc_100m3) %>%
+  select(station, taxa_name, mean_conc_m3, everything())
+
 filtered_zp2 <- filtered_zp1 %>%
   rename(Station = station, 
          Latitude = lat,
          Longitude = lon,
          "Station Depth (m)" = depth_m,
          Zooplankton = taxa_name,
-         Abundance = mean_conc_10m2)
+         Abundance = mean_conc_m3)
 
 filtered_zp2 <- filtered_zp2 %>%
   arrange(Station)
 
 #writecsv
-#write.csv(filtered_zp2, "zooplankton_dataJam.csv")
+#write.csv(filtered_zp2, "zooplankton_dataJam_m3.csv")
 
+################################################################
+################################################################
+################################################################
+## USING VOLUME
+zp_vol <- read.csv(file.path("raw",
+                         "nes-lter-zp-abundance-335um-unstaged100m3.csv"), 
+               header = T) #created in \NES-LTER\Cruise Data\EDI zooplankton abundance update v2\zoop_abundance_update_EDI_v2
 
+filtered_zp <- zp %>%
+  filter(taxa_name %in% taxa_of_interest)
+
+filtered_zp1 <- filtered_zp %>%
+  group_by(station, taxa_name) %>%
+  summarise(mean_conc_10m2 = mean(conc_10m2, na.rm = TRUE)) %>%
+  ungroup()
 ################################################################
 ################################################################
 ################################################################
