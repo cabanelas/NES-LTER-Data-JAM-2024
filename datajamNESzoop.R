@@ -292,18 +292,7 @@ filtered_zp2 <- filtered_zp2 %>%
 ################################################################
 ################################################################
 ################################################################
-## USING VOLUME
-zp_vol <- read.csv(file.path("raw",
-                         "nes-lter-zp-abundance-335um-unstaged100m3.csv"), 
-               header = T) #created in \NES-LTER\Cruise Data\EDI zooplankton abundance update v2\zoop_abundance_update_EDI_v2
 
-filtered_zp <- zp %>%
-  filter(taxa_name %in% taxa_of_interest)
-
-filtered_zp1 <- filtered_zp %>%
-  group_by(station, taxa_name) %>%
-  summarise(mean_conc_10m2 = mean(conc_10m2, na.rm = TRUE)) %>%
-  ungroup()
 ################################################################
 ################################################################
 ################################################################
